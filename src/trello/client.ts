@@ -399,8 +399,10 @@ export class TrelloClient {
     cardsLimit?: number;
     membersLimit?: number;
   }): Promise<TrelloApiResponse<any>> {
+    // buildURL() feeds params to URLSearchParams.set(), which already
+    // percent-encodes. Encoding here too sends %2520 and breaks multi-word search.
     const params: Record<string, string> = {
-      query: encodeURIComponent(query)
+      query
     };
     
     if (options?.modelTypes) {
